@@ -26,7 +26,7 @@ namespace LoginService
             serviceProvider.DbMigrationLogin();
 
             await Task.Factory.StartNew(serviceProvider.GetRequiredService<LoginService>().StartAsync);
-            Process.GetCurrentProcess().WaitForExit();
+            await Process.GetCurrentProcess().WaitForExitAsync();
         }
 
         private static void ConfigureServices(IServiceCollection services)

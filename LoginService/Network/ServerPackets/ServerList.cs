@@ -30,7 +30,7 @@ namespace LoginService.Network.ServerPackets
                 await WriteBytesArrayAsync(server.GetIp(_client));
                 await WriteIntAsync(server.Port); //port
                 await WriteByteAsync(0); //// age limit
-                await WriteByteAsync(1);
+                await WriteByteAsync(0);
                 await WriteShortAsync(5);
                 await WriteShortAsync(10);
                 await WriteByteAsync(server.Connected ? (byte)1 : (byte)0); //status of server

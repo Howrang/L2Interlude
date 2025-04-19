@@ -28,20 +28,19 @@ namespace LoginService.Model
 
         public byte[] GetIp(LoginServiceController client)
         {
-            if (DefaultAddress == null)
+            if (DefaultAddress != null)
             {
-                string ip = GameServerClient?.Wan ?? "0.0.0.0";
-
-                DefaultAddress = new byte[4];
-                string[] w = ip.Split('.');
-                DefaultAddress[0] = byte.Parse(w[0]);
-                DefaultAddress[1] = byte.Parse(w[1]);
-                DefaultAddress[2] = byte.Parse(w[2]);
-                DefaultAddress[3] = byte.Parse(w[3]);
-            }
-
-            if (GameServerClient == null)
                 return DefaultAddress;
+            }
+            
+            string ip = GameServerClient?.Wan ?? "0.0.0.0";
+
+            DefaultAddress = new byte[4];
+            string[] w = ip.Split('.');
+            DefaultAddress[0] = byte.Parse(w[0]);
+            DefaultAddress[1] = byte.Parse(w[1]);
+            DefaultAddress[2] = byte.Parse(w[2]);
+            DefaultAddress[3] = byte.Parse(w[3]);
 
             return DefaultAddress;
         }

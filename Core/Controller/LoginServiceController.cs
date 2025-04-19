@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using DataBase.Entities;
+using Security;
 
 namespace Core.Controller
 {
@@ -17,6 +19,8 @@ namespace Core.Controller
         private TcpClient _authServerConnection;
         private NetworkStream _networkStream;
         private readonly LoginServicePacketHandler _loginServicePacketHandler;
+        private Dictionary<int, UserAuthEntity> _awaitingAccounts;
+
         public int RandomPingKey { get; set; }
         private readonly GameConfig _gameConfig;
 
@@ -24,7 +28,7 @@ namespace Core.Controller
         {
             _gameConfig = serviceProvider.GetService<GameConfig>();
             _loginServicePacketHandler = loginServicePacketHandler;
-            
+            _awaitingAccounts = new Dictionary<int, UserAuthEntity>();
         }
         
         public async Task StartAsync()
@@ -114,12 +118,34 @@ namespace Core.Controller
                 await Task.Delay(5000).ContinueWith(x => StartAsync());
             }
         }
+        
         private void printPacketBody(byte[] db, string target = "GAME>>AUTH")
         {
             string str = "";
             foreach (byte b in db)
                 str += b.ToString("x2") + " ";
             LoggerManager.Debug($"LoginServiceController: {target} body: [ {str} ]");
+        }
+
+        public void AwaitAddAccount(UserAuthEntity account, SessionKey sessionKey)
+        {
+            _awaitingAccounts.Remove(account.AccountId);
+            _awaitingAccounts.Add(account.AccountId, account);
+        }
+
+        public void LoginFail(string code)
+        {
+            try
+            {
+                _networkStream.Close();
+                _authServerConnection.Close();
+            }
+            catch (Exception e)
+            {
+                LoggerManager.Error(e.Message);
+            }
+
+            LoggerManager.Warn($"Please, check configuration. Error code: {code}");
         }
     }
 }

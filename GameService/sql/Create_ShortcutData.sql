@@ -13,6 +13,6 @@ CREATE TABLE `shortcut_data`  (
   `subjob_id` int NOT NULL,
   PRIMARY KEY (`char_id`, `slotnum`, `subjob_id`) USING BTREE,
   UNIQUE INDEX `PK_shortcut_data`(`char_id` ASC, `slotnum` ASC, `subjob_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

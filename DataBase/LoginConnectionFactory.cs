@@ -1,9 +1,9 @@
 ﻿using Config;
 using L2Logger;
 using Microsoft.Extensions.DependencyInjection;
-using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using MySqlConnector;
 
 
 //CLR: 4.0.30319.42000

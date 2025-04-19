@@ -40,8 +40,8 @@ namespace DataBase
                     DeployChanges.To
                         .MySqlDatabase(connectionString)
                         .WithScriptsFromFileSystem("sql", options)
-                        .LogToAutodetectedLog()
                         .LogScriptOutput()
+                        .LogToConsole()
                         .Build();
 
                 var result = upgrader.PerformUpgrade();
